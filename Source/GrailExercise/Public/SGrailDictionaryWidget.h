@@ -19,10 +19,10 @@ struct FValueField
 	int DisplayPosition;
 };
 
-class SSGrailDictionaryWidget : public SCompoundWidget
+class SGrailDictionaryWidget : public SCompoundWidget
 {
 public:
-	SLATE_BEGIN_ARGS(SSGrailDictionaryWidget) {}
+	SLATE_BEGIN_ARGS(SGrailDictionaryWidget) {}
 	SLATE_END_ARGS()
 
 	void Construct(const FArguments& InArgs);

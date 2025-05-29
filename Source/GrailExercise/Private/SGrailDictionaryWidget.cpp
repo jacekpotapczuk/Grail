@@ -1,14 +1,14 @@
-﻿#include "DesktopPlatformModule.h"
+﻿#include "SGrailDictionaryWidget.h"
+#include "DesktopPlatformModule.h"
 #include "IDesktopPlatform.h"
-#include "SSGrailDictionaryWidget.h"
 #include "Microsoft/AllowMicrosoftPlatformTypes.h"
 #include "Widgets/Text/STextBlock.h"
 #include "Widgets/Input/SEditableTextBox.h"
 #include "Widgets/Input/SButton.h"
 
-int32 SSGrailDictionaryWidget::NewEntryIndex = 0;
+int32 SGrailDictionaryWidget::NewEntryIndex = 0;
 
-void SSGrailDictionaryWidget::Construct(const FArguments& InArgs)
+void SGrailDictionaryWidget::Construct(const FArguments& InArgs)
 {
 	NewEntryIndex = 0;
 	ChildSlot
@@ -30,7 +30,7 @@ void SSGrailDictionaryWidget::Construct(const FArguments& InArgs)
 				[
 					SNew(SButton)
 					.Text(FText::FromString("Add Element"))
-					.OnClicked(this, &SSGrailDictionaryWidget::OnAddClicked)
+					.OnClicked(this, &SGrailDictionaryWidget::OnAddClicked)
 				]
 			]
 		]
@@ -53,14 +53,14 @@ void SSGrailDictionaryWidget::Construct(const FArguments& InArgs)
 			SNew(SButton)
 			.HAlign(HAlign_Center)
 			.Text(FText::FromString("Save Data"))
-			.OnClicked(this, &SSGrailDictionaryWidget::OnSaveDataClicked)
+			.OnClicked(this, &SGrailDictionaryWidget::OnSaveDataClicked)
 		]
 	];
 	
 	RebuildDictionarySlots();
 }
 
-FReply SSGrailDictionaryWidget::OnAddClicked()
+FReply SGrailDictionaryWidget::OnAddClicked()
 {
 	const FString NewKey = FString::Printf(TEXT("Key %d"), NewEntryIndex++);
 
@@ -76,7 +76,7 @@ FReply SSGrailDictionaryWidget::OnAddClicked()
 	return FReply::Handled();
 }
 
-FReply SSGrailDictionaryWidget::OnSaveDataClicked()
+FReply SGrailDictionaryWidget::OnSaveDataClicked()
 {
 	if (ErrorKeys.Num() > 0)
 	{
@@ -103,7 +103,7 @@ FReply SSGrailDictionaryWidget::OnSaveDataClicked()
 	return FReply::Handled();
 }
 
-bool SSGrailDictionaryWidget::TryGetSavePath(FString& OutPath)
+bool SGrailDictionaryWidget::TryGetSavePath(FString& OutPath)
 {
 	IDesktopPlatform* DesktopPlatform = FDesktopPlatformModule::Get();
 	
@@ -132,7 +132,7 @@ bool SSGrailDictionaryWidget::TryGetSavePath(FString& OutPath)
 	return true;
 }
 
-bool SSGrailDictionaryWidget::TrySaveToJson(const FString& SavePath)
+bool SGrailDictionaryWidget::TrySaveToJson(const FString& SavePath)
 {
 	const TSharedRef<FJsonObject> JsonObject = MakeShared<FJsonObject>();
 	
@@ -159,7 +159,7 @@ bool SSGrailDictionaryWidget::TrySaveToJson(const FString& SavePath)
 	return true;
 }
 
-void SSGrailDictionaryWidget::RebuildDictionarySlots()
+void SGrailDictionaryWidget::RebuildDictionarySlots()
 {
 	if (!DictionarySlotsContainer.IsValid())
 	{
@@ -174,7 +174,7 @@ void SSGrailDictionaryWidget::RebuildDictionarySlots()
 	}
 }
 
-void SSGrailDictionaryWidget::RebuildDictionarySlot(TTuple<FString, FValueField>& Entry)
+void SGrailDictionaryWidget::RebuildDictionarySlot(TTuple<FString, FValueField>& Entry)
 {
 	const FString Key = Entry.Key;
 	FString& Value = Entry.Value.Value;
@@ -205,7 +205,7 @@ void SSGrailDictionaryWidget::RebuildDictionarySlot(TTuple<FString, FValueField>
 	];
 }
 
-TSharedRef<SEditableTextBox> SSGrailDictionaryWidget::BuildKeySlot(const FString& Key)
+TSharedRef<SEditableTextBox> SGrailDictionaryWidget::BuildKeySlot(const FString& Key)
 {
 	return SNew(SEditableTextBox)
 		.Text(FText::FromString(InternalMap[Key].DisplayKey))
@@ -228,7 +228,7 @@ TSharedRef<SEditableTextBox> SSGrailDictionaryWidget::BuildKeySlot(const FString
 		});
 }
 
-TSharedRef<SEditableTextBox> SSGrailDictionaryWidget::BuildValueSlot(const FString& Key)
+TSharedRef<SEditableTextBox> SGrailDictionaryWidget::BuildValueSlot(const FString& Key)
 {
 	return SNew(SEditableTextBox)
 		.Text(FText::FromString(InternalMap[Key].Value))
@@ -240,7 +240,7 @@ TSharedRef<SEditableTextBox> SSGrailDictionaryWidget::BuildValueSlot(const FStri
 		});
 }
 
-TSharedRef<SButton> SSGrailDictionaryWidget::BuildRemoveSlot(const FString& Key)
+TSharedRef<SButton> SGrailDictionaryWidget::BuildRemoveSlot(const FString& Key)
 {
 	return SNew(SButton)
 		.Text(FText::FromString("X"))
@@ -251,7 +251,7 @@ TSharedRef<SButton> SSGrailDictionaryWidget::BuildRemoveSlot(const FString& Key)
 		});
 }
 
-FReply SSGrailDictionaryWidget::OnRemoveElementClicked(const FString& Key)
+FReply SGrailDictionaryWidget::OnRemoveElementClicked(const FString& Key)
 {
 	InternalMap.Remove(Key);
 	RebuildDictionarySlots();
@@ -259,7 +259,7 @@ FReply SSGrailDictionaryWidget::OnRemoveElementClicked(const FString& Key)
 	return FReply::Handled();
 }
 
-void SSGrailDictionaryWidget::UpdateInvalidEntries()
+void SGrailDictionaryWidget::UpdateInvalidEntries()
 {
 	TSet<FString> Seen;
 	bool bAnyErrors = false;

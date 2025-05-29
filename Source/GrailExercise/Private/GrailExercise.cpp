@@ -2,7 +2,7 @@
 
 #include "GrailExercise.h"
 
-#include "SSGrailDictionaryWidget.h"
+#include "SGrailDictionaryWidget.h"
 #include "Framework/MultiBox/MultiBoxBuilder.h"
 #include "ToolMenus.h"
 
@@ -26,7 +26,7 @@ TSharedRef<SDockTab> FGrailExerciseModule::OnSpawnPluginTab(const FSpawnTabArgs&
 	return SNew(SDockTab)
 		.TabRole(ETabRole::NomadTab)
 		[
-			SNew(SSGrailDictionaryWidget)
+			SNew(SGrailDictionaryWidget)
 		];
 }
 
